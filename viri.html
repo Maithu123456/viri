@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viri Rover - Smart Multi-Function Rover</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #ff6b6b; }
+            to { text-shadow: 0 0 30px #4ecdc4; }
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4ecdc4;
+        }
+        .demo-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .rover-model {
+            width: 300px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border-radius: 20px;
+            position: relative;
+            animation: drive 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        @keyframes drive {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(20px) rotate(5deg); }
+        }
+        .wheels {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .wheel {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #666, #333);
+            border-radius: 50%;
+            position: relative;
+            animation: spin 1s linear infinite;
+        }
+        .wheel::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #444;
+            border-radius: 50%;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .status-panel {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .status-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .status-item.active {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            transform: scale(1.05);
+        }
+        .status-value {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-primary { background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; }
+        .btn-primary:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(78,205,196,0.4); }
+        .btn-danger { background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: white; }
+        .btn-danger:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(255,107,107,0.4); }
+        .btn-warning { background: linear-gradient(45deg, #feca57, #ff9ff3); color: #333; }
+        .btn-warning:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(254,202,87,0.4); }
+        .product-plan {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .product-plan h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #4ecdc4;
+        }
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .features { grid-template-columns: 1fr; }
+            .controls { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🚀 Viri Rover</h1>
+        <p>Smart Autonomous Rover for Child Safety, Plant Care & Environmental Cleanup</p>
+    </header>
+
+    <div class="container">
+        <section class="features">
+            <div class="feature-card">
+                <span class="feature-icon">👶</span>
+                <h3>Child Finder</h3>
+                <p>Uses AI vision & GPS to detect lost children and instantly alerts parents/authorities with live location.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💧</span>
+                <h3>Plant Watering</h3>
+                <p>Soil moisture sensors automatically water plants when needed, preventing drought damage.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🗑️</span>
+                <h3>Litter Collection</h3>
+                <p>Computer vision identifies trash, collects it in onboard bin, and navigates to disposal points.</p>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h2 style="margin-bottom: 1.5rem; color: #4ecdc4;">Live Demo Simulation</h2>
+            <div class="rover-model">
+                <div class="wheels">
+                    <div class="wheel"></div>
+                    <div class="wheel"></div>
+                    <div class="wheel"></div>
+                </div>
+            </div>
+            <div class="status-panel" id="statusPanel">
+                <div class="status-item" id="childStatus">
+                    <span class="status-value" id="childCount">0</span>
+                    Children Found
+                </div>
+                <div class="status-item" id="plantStatus">
+                    <span class="status-value" id="plantCount">0</span>
+                    Plants Watered
+                </div>
+                <div class="status-item" id="litterStatus">
+                    <span class="status-value" id="litterCount">0</span>
+                    Litter Collected
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-primary" onclick="startMission()">🚀 Start Mission</button>
+                <button class="btn btn-warning" onclick="deployWater()">💧 Water Plants</button>
+                <button class="btn btn-danger" onclick="collectLitter()">🗑️ Collect Litter</button>
+                <button class="btn btn-primary" onclick="findChild()">👶 Find Child</button>
+                <button class="btn btn-warning" onclick="resetStats()">🔄 Reset</button>
+            </div>
+        </section>
+
+        <section class="product-plan">
+            <h2>📋 Product Development Roadmap</h2>
+            <ol class="steps">
+                <li><strong>Prototype Hardware:</strong> Arduino Mega + Raspberry Pi 5, 4x DC motors, camera module, moisture sensors, water pump, litter grabber arm.</li>
+                <li><strong>Software Stack:</strong> OpenCV for vision, ROS2 for navigation, Twilio/SMS API for alerts, MQTT for real-time data.</li>
+                <li><strong>AI Features:</strong> YOLOv8 for child/litter detection, soil moisture ML model, pathfinding with A* algorithm.</li>
+                <li><strong>Monetization:</strong> Sell to schools/parks ₹25,000/unit, subscription ₹500/month for cloud monitoring.</li>
+                <li><strong>Manufacturing:</strong> 3D print chassis, source components from Robu.in, assemble in Tamil Nadu workshops.</li>
+                <li><strong>Marketing:</strong> Demo videos on YouTube, target parents/schools via Instagram reels, pitch to local municipalities.</li>
+            </ol>
+        </section>
+    </div>
+
+    <script>
+        let stats = { children: 0, plants: 0, litter: 0 };
+        const sounds = {
+            success: new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAo'),
+            alert: new Audio('data:audio/wav;base64,UklGRl4CAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAo')
+        };
+
+        function updateStatus() {
+            document.getElementById('childCount').textContent = stats.children;
+            document.getElementById('plantCount').textContent = stats.plants;
+            document.getElementById('litterCount').textContent = stats.litter;
+            
+            // Animate active status
+            setTimeout(() => {
+                document.querySelectorAll('.status-item').forEach(el => el.classList.remove('active'));
+            }, 1000);
+        }
+
+        function startMission() {
+            stats.children += Math.floor(Math.random() * 2) + 1;
+            stats.plants += Math.floor(Math.random() * 3) + 1;
+            stats.litter += Math.floor(Math.random() * 4) + 1;
+            document.getElementById('statusPanel').querySelectorAll('.status-item')[0].classList.add('active');
+            sounds.success.play().catch(() => {});
+            updateStatus();
+            alert('✅ Mission Complete! Check status panel for results.');
+        }
+
+        function deployWater() {
+            stats.plants++;
+            document.getElementById('plantStatus').classList.add('active');
+            sounds.success.play().catch(() => {});
+            updateStatus();
+        }
+
+        function collectLitter() {
+            stats.litter++;
+            document.getElementById('litterStatus').classList.add('active');
+            sounds.success.play().catch(() => {});
+            updateStatus();
+        }
+
+        function findChild() {
+            stats.children++;
+            document.getElementById('childStatus').classList.add('active');
+            sounds.alert.play().catch(() => {});
+            updateStatus();
+            alert('🚨 Child found! Alert sent to parents & authorities with GPS coordinates.');
+        }
+
+        function resetStats() {
+            stats = { children: 0, plants: 0, litter: 0 };
+            updateStatus();
+        }
+
+        // Auto-demo every 10 seconds
+        setInterval(() => {
+            if (Math.random() > 0.7) startMission();
+        }, 10000);
+    </script>
+</body>
+</html>
